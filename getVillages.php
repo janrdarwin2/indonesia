@@ -18,16 +18,17 @@ $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
   // output data of each row
   echo '{"villages":[';
-  
+  $i = 0;
   while ($row = mysqli_fetch_assoc($result)) {
     $id = $row["id"];
     $name = $row["name"];
-    $i = 0;
-    echo '{"id":"' . $id . '", "name":' . $name . '}';
-    $i++
-    if ($i<mysqli_num_rows ( $result )) {
-      echo ","
+
+    echo '{"id":"' . $id . '", "name":"' . $name . '"}';
+    $i++;
+    if ($i < mysqli_num_rows($result)) {
+      echo ",";
     }
   }
+  echo ']}';
 }
 $conn->close();

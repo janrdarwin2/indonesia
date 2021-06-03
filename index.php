@@ -48,11 +48,18 @@ if (!$conn) {
       ?>
     </select>
     <label for="regency">Regency: </label>
-    <select name="regency" id="regency" onchange="">
-
+    <select name="regency" id="regency" onchange="getDistricts(regency.value)">
       <option value="">Select regency ... </option>
-
     </select>
+    <label for="district">district: </label>
+    <select name="district" id="district" onchange="getVillages(district.value)">
+      <option value="">Select district ... </option>
+    </select>
+    <label for="villages">Villages: </label>
+    <select name="village" id="village">
+      <option value="">Select village ... </option>
+    </select>
+    <button type="reset">Reset</button>
   </form>
 
 
@@ -60,8 +67,8 @@ if (!$conn) {
     function getRegencies(str) {
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
 
+        if (this.readyState == 4 && this.status == 200) {
           var obj = JSON.parse(this.responseText);
           for (let i = 0; i < obj.regencies.length; i++) {
             // get reference to select element
@@ -83,6 +90,64 @@ if (!$conn) {
         }
       };
       xmlhttp.open("GET", "getRegencies.php?q=" + str, true);
+      xmlhttp.send();
+    }
+
+    function getDistricts(str) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+
+        if (this.readyState == 4 && this.status == 200) {
+          var obj = JSON.parse(this.responseText);
+          for (let i = 0; i < obj.districts.length; i++) {
+            // get reference to select element
+            var sel = document.getElementById('district');
+
+            // create new option element
+            var opt = document.createElement('option');
+
+            // create text node to add to option element (opt)
+            opt.appendChild(document.createTextNode(obj.districts[i].name));
+
+            // set value property of opt
+            opt.value = obj.districts[i].id;
+
+            // add opt to end of select box (sel)
+            sel.appendChild(opt);
+
+          }
+        }
+      };
+      xmlhttp.open("GET", "getDistricts.php?q=" + str, true);
+      xmlhttp.send();
+    }
+
+    function getVillages(str) {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+
+        if (this.readyState == 4 && this.status == 200) {
+          var obj = JSON.parse(this.responseText);
+          for (let i = 0; i < obj.villages.length; i++) {
+            // get reference to select element
+            var sel = document.getElementById('village');
+
+            // create new option element
+            var opt = document.createElement('option');
+
+            // create text node to add to option element (opt)
+            opt.appendChild(document.createTextNode(obj.villages[i].name));
+
+            // set value property of opt
+            opt.value = obj.villages[i].id;
+
+            // add opt to end of select box (sel)
+            sel.appendChild(opt);
+
+          }
+        }
+      };
+      xmlhttp.open("GET", "getVillages.php?q=" + str, true);
       xmlhttp.send();
     }
   </script>
