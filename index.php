@@ -86,6 +86,9 @@ if (!$conn) {
             // add opt to end of select box (sel)
             sel.appendChild(opt);
 
+            // remove 2nd option in select box (sel)
+            // sel.removeChild(sel.options[1]);
+
           }
         }
       };
@@ -100,21 +103,11 @@ if (!$conn) {
         if (this.readyState == 4 && this.status == 200) {
           var obj = JSON.parse(this.responseText);
           for (let i = 0; i < obj.districts.length; i++) {
-            // get reference to select element
             var sel = document.getElementById('district');
-
-            // create new option element
             var opt = document.createElement('option');
-
-            // create text node to add to option element (opt)
             opt.appendChild(document.createTextNode(obj.districts[i].name));
-
-            // set value property of opt
             opt.value = obj.districts[i].id;
-
-            // add opt to end of select box (sel)
             sel.appendChild(opt);
-
           }
         }
       };
@@ -129,21 +122,11 @@ if (!$conn) {
         if (this.readyState == 4 && this.status == 200) {
           var obj = JSON.parse(this.responseText);
           for (let i = 0; i < obj.villages.length; i++) {
-            // get reference to select element
             var sel = document.getElementById('village');
-
-            // create new option element
             var opt = document.createElement('option');
-
-            // create text node to add to option element (opt)
             opt.appendChild(document.createTextNode(obj.villages[i].name));
-
-            // set value property of opt
             opt.value = obj.villages[i].id;
-
-            // add opt to end of select box (sel)
             sel.appendChild(opt);
-
           }
         }
       };
