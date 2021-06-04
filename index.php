@@ -65,6 +65,36 @@ if (!$conn) {
 
   <script>
     function getRegencies(str) {
+      var sel = document.getElementById('regency');
+
+      if (typeof sel.options[1] === "undefined") {
+        console.log("ok");
+      } else {
+        console.log("delete");
+        var id = sel.options[1].value;
+        var pre = parseInt(id.substring(0, 2));
+        console.log(pre);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+
+          if (this.readyState == 4 && this.status == 200) {
+            var obj = JSON.parse(this.responseText);
+            for (let i = 0; i < obj.regencies.length; i++) {
+              // get reference to select element
+              var sel = document.getElementById('regency');
+
+              // create new option element
+              var opt = document.createElement('option');
+
+              // remove 2nd option in select box (sel)
+              sel.removeChild(sel.options[1]);
+
+            }
+          }
+        };
+        xmlhttp.open("GET", "getRegencies.php?q=" + pre, true);
+        xmlhttp.send();
+      }
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function() {
 
@@ -97,6 +127,38 @@ if (!$conn) {
     }
 
     function getDistricts(str) {
+      var sel = document.getElementById('district');
+
+      if (typeof sel.options[1] === "undefined") {
+        console.log("ok");
+      } else {
+        console.log("delete");
+        var id = sel.options[1].value;
+
+        var pre = parseInt(id.substring(0, 4));
+        console.log(pre);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+
+          if (this.readyState == 4 && this.status == 200) {
+            var obj = JSON.parse(this.responseText);
+            for (let i = 0; i < obj.districts.length; i++) {
+              // get reference to select element
+              var sel = document.getElementById('district');
+
+              // create new option element
+              var opt = document.createElement('option');
+
+              // remove 2nd option in select box (sel)
+              sel.removeChild(sel.options[1]);
+
+            }
+          }
+        };
+        xmlhttp.open("GET", "getDistricts.php?q=" + pre, true);
+        xmlhttp.send();
+      }
+
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function() {
 
