@@ -51,7 +51,7 @@ if (!$conn) {
     <select name="regency" id="regency" onchange="getDistricts(regency.value)">
       <option value="">Select regency ... </option>
     </select>
-    <label for="district">district: </label>
+    <label for="district">District: </label>
     <select name="district" id="district" onchange="getVillages(district.value)">
       <option value="">Select district ... </option>
     </select>
@@ -68,9 +68,9 @@ if (!$conn) {
       var sel = document.getElementById('regency');
 
       if (typeof sel.options[1] === "undefined") {
-        console.log("ok");
+
       } else {
-        console.log("delete");
+
         var id = sel.options[1].value;
         var pre = parseInt(id.substring(0, 2));
         console.log(pre);
@@ -130,9 +130,9 @@ if (!$conn) {
       var sel = document.getElementById('district');
 
       if (typeof sel.options[1] === "undefined") {
-        console.log("ok");
+
       } else {
-        console.log("delete");
+
         var id = sel.options[1].value;
 
         var pre = parseInt(id.substring(0, 4));
@@ -178,6 +178,38 @@ if (!$conn) {
     }
 
     function getVillages(str) {
+      var sel = document.getElementById('village');
+
+      if (typeof sel.options[1] === "undefined") {
+
+      } else {
+
+        var id = sel.options[1].value;
+
+        var pre = parseInt(id.substring(0, 7));
+        console.log(pre);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+
+          if (this.readyState == 4 && this.status == 200) {
+            var obj = JSON.parse(this.responseText);
+            for (let i = 0; i < obj.villages.length; i++) {
+              // get reference to select element
+              var sel = document.getElementById('village');
+
+              // create new option element
+              var opt = document.createElement('option');
+
+              // remove 2nd option in select box (sel)
+              sel.removeChild(sel.options[1]);
+
+            }
+          }
+        };
+        xmlhttp.open("GET", "getvillages.php?q=" + pre, true);
+        xmlhttp.send();
+      }
+
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function() {
 
