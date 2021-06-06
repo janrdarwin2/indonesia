@@ -1,14 +1,22 @@
-<?php 
-function myConnection() {
+<?php
+function connection()
+{
   $serverName = "localhost";
   $userName = "root";
   $password = "";
   $dbName = "indonesia";
-  
+
   // Create connection
-  $conn = mysqli_connect($serverName, $userName, $password, $dbName);
-  // Check connection
-  if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-  }
+  return mysqli_connect($serverName, $userName, $password, $dbName);
+}
+
+function query($query)
+{
+  $conn = connection();
+  $result = mysqli_query($conn, $query);
+  $rows = [];
+  while ($row = mysqli_fetch_assoc($result)) {
+    $rows[] = $row;
+  };
+  return $rows;
 }

@@ -1,17 +1,7 @@
 <!-- Input regional Indonesia -->
 
 <?php
-$serverName = "localhost";
-$userName = "root";
-$password = "";
-$dbName = "indonesia";
-
-// Create connection
-$conn = mysqli_connect($serverName, $userName, $password, $dbName);
-// Check connection
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
-}
+require "functions.php";
 ?>
 
 <!DOCTYPE html>
@@ -26,40 +16,42 @@ if (!$conn) {
 
 <body>
   <form action="" method="GET">
-    <label for="province">Province: </label>
-    <select name="province" id="province" onchange="getRegencies(province.value)">
-      <?php
-
-      $sql = "SELECT * FROM provinces";
-      $result = mysqli_query($conn, $sql);
-      ?>
-      <option value="">Select province ... </option>
-      <?php
-      if (mysqli_num_rows($result) > 0) {
-        // output data of each row
-        while ($row = mysqli_fetch_assoc($result)) {
-      ?>
-          <option value="<?= $row['id']; ?>"><?= $row['name']; ?></option>
-      <?php
-        }
-      }
-
-
-      ?>
-    </select>
-    <label for="regency">Regency: </label>
-    <select name="regency" id="regency" onchange="getDistricts(regency.value)">
-      <option value="">Select regency ... </option>
-    </select>
-    <label for="district">District: </label>
-    <select name="district" id="district" onchange="getVillages(district.value)">
-      <option value="">Select district ... </option>
-    </select>
-    <label for="villages">Villages: </label>
-    <select name="village" id="village">
-      <option value="">Select village ... </option>
-    </select>
+    <ul>
+      <li>
+        <label for="province">Province: </label>
+        <select name="province" id="province" onchange="getRegencies(province.value)">
+          <option value="">Select province ... </option>
+          <?php
+          $provinces = query("SELECT * FROM provinces");
+          foreach ($provinces as $p) :
+          ?>
+            <option value="<?= $p['id']; ?>"><?= $p['name']; ?></option>
+          <?php
+          endforeach;
+          ?>
+        </select>
+      </li>
+      <li>
+        <label for="regency">Regency: </label>
+        <select name="regency" id="regency" onchange="getDistricts(regency.value)">
+          <option value="">Select regency ... </option>
+        </select>
+      </li>
+      <li>
+        <label for="district">District: </label>
+        <select name="district" id="district" onchange="getVillages(district.value)">
+          <option value="">Select district ... </option>
+        </select>
+      </li>
+      <li>
+        <label for="villages">Villages: </label>
+        <select name="village" id="village">
+          <option value="">Select village ... </option>
+        </select>
+      </li>
+    </ul>
     <button type="reset">Reset</button>
+    <button type="submit">Submit</button>
   </form>
 
 
@@ -73,7 +65,6 @@ if (!$conn) {
 
         var id = sel.options[1].value;
         var pre = parseInt(id.substring(0, 2));
-        console.log(pre);
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
 
